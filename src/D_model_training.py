@@ -11,10 +11,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-import dagshub
-dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+#importing helper module from parent
+from helper.Loader import Load
 
-mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+# import dagshub
+# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+
+# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 
 
 
@@ -75,28 +78,6 @@ def basic_model_training(X_train, Y_train):
         
     return basic_Models
     
-
-def load_data(file_path: str) -> pd.DataFrame:
-    """
-    Load data from a CSV file.
-    
-    :param file_path: Path to the CSV file
-    :return: Loaded DataFrame
-    """
-    try:
-        df = pd.read_csv(file_path)
-        logger.debug('Data loaded from %s with shape %s', file_path, df.shape)
-        return df
-    except pd.errors.ParserError as e:
-        logger.error('Failed to parse the CSV file: %s', e)
-        raise
-    except FileNotFoundError as e:
-        logger.error('File not found: %s', e)
-        raise
-    except Exception as e:
-        logger.error('Unexpected error occurred while loading the data: %s', e)
-        raise
-
 
 
 def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
@@ -173,7 +154,7 @@ def save_model(model, file_path: str) -> None:
 def main():
     try:
 
-        train_data = load_data('./data/processed/train_final.csv')
+        train_data = Load('./data/processed/train_final.csv', 'df', logger, __file__).load_it()
         X_train = train_data.iloc[:, :-1].values
         y_train = train_data.iloc[:, -1].values
 

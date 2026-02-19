@@ -4,11 +4,13 @@ import logging
 import pandas as pd
 import mlflow
 
+#importing helper module
+from helper.Loader import Load
 
-import dagshub
-dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+# import dagshub
+# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
 
-mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 
 
 
@@ -77,14 +79,6 @@ def prep_penguins_data(data, trORte):
         
         logger.error('error in prep_penguins_data')
         raise 
-    #Create X, where X is the data frame without the Species column
-    #X serves as the predictor variables
-    # X = df.drop(["Species"], axis = 1)
-    
-    # #Create y, where y just contains the Species column
-    # #y serves as the target variable
-    # y = df["Species"]
-
 
 
 def main(text_column='text', target_column='target'):
@@ -92,13 +86,13 @@ def main(text_column='text', target_column='target'):
     Main function to load raw data, preprocess it, and save the processed data.
     """
     try:
-        # Fetch the data from data/raw
-        train_data = pd.read_csv('./data/raw/train.csv')
-        test_data = pd.read_csv('./data/raw/test.csv')
-        logger.debug('Data loaded properly')
+
+        train_data = Load('./data/raw/train.csv', 'df', logger, __file__).load_it()
+        test_data = Load('./data/raw/test.csv', 'df', logger, __file__).load_it()
+
 
         # Transform the data
-        train_processed_data = prep_penguins_data(train_data, 'train data')
+        train_processed_data = prep_penguins_data(train_data, 'train data', )
         test_processed_data = prep_penguins_data(test_data,'test data')
 
         # Store the data inside data/processed

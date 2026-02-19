@@ -6,7 +6,7 @@ import os
 from sklearn.model_selection import train_test_split
 import mlflow
 
-#importing extra
+#importing helper module from parent
 from helper.Loader import Load
 
 #Remote server tracking using dagshub
@@ -43,19 +43,6 @@ logger.addHandler(file_handler)
 with open('data/logs/data_ingestion.log') as f:
     lines = f.readlines()
     init_log_length = len(lines)
-
-
-#data loader
-# def load_data(data_url: str) -> pd.DataFrame:
-#     """Load data from a CSV file."""
-#     try:
-#         df = pd.read_csv(data_url)
-#         logger.debug('Data loaded from %s', data_url)
-#         return df
-    
-#     except Exception as e:
-#         logger.error('Unexpected error occurred while loading the data: %s', e)
-#         raise
 
 
 def train_test_spliter(df, test_size, random_state):
@@ -96,12 +83,8 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
         raise
 
 def main():    
-    # df = load_data('data/src/palmer_penguins.csv')
-    
-    
-    data = Load("data/src/palmer_penguins.csv", 'df', logger=logger)
+    data = Load("data/src/palmer_penguins.csv", 'df', logger=logger, component=__file__)
     df = data.load_it()
-        
     
     df = basic_processing(df)
 

@@ -1,4 +1,15 @@
 TO_USE_AGENDA.txt
 Project_flow.txt
 src/__pycache__
-
+src/helper/__pycache__
+data/raw
+data/logs
+data/interim
+data/raw
+data/processed
+data/models
+data/reports
+data/current_exp.log
+mlflow.db
+mlruns
+rough.py

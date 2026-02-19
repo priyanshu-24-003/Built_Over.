@@ -8,10 +8,13 @@ from sklearn.metrics import accuracy_score, classification_report
 import logging
 import mlflow
 
-import dagshub
-dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+#importing helper module from parent
+from helper.Loader import Load
 
-mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+# import dagshub
+# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+
+# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 
 
 # Ensure the "logs" directory exists
@@ -42,33 +45,6 @@ with open('data/logs/E_model_evaluation.log') as f:
     lines = f.readlines()
     init_log_length = len(lines)
 
-
-def load_model(file_path: str):
-    """Load the trained model from a file."""
-    try:
-        with open(file_path, 'rb') as file:
-            model = pickle.load(file)
-        logger.debug('Model loaded from %s', file_path)
-        return model
-    except FileNotFoundError:
-        logger.error('File not found: %s', file_path)
-        raise
-    except Exception as e:
-        logger.error('Unexpected error occurred while loading the model: %s', e)
-        raise
-
-def load_data(file_path: str) -> pd.DataFrame:
-    """Load data (usually test data) from a CSV file."""
-    try:
-        df = pd.read_csv(file_path)
-        logger.debug('Data loaded from %s', file_path)
-        return df
-    except pd.errors.ParserError as e:
-        logger.error('Failed to parse the CSV file: %s', e)
-        raise
-    except Exception as e:
-        logger.error('Unexpected error occurred while loading the data: %s', e)
-        raise
 
 def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
     """Evaluate the model and return the evaluation metrics."""
@@ -106,8 +82,8 @@ def save_metrics(metrics: dict, file_path: str) -> None:
 
 def main():
     try:
-        clf = load_model('./data/models/model.pkl')
-        test_data = load_data('./data/processed/test_final.csv')
+        clf = Load('./data/models/model.pkl', 'model', logger, __file__).load_it()
+        test_data = Load('./data/processed/test_final.csv', 'df', logger, __file__).load_it()
         
         X_test = test_data.iloc[:, :-1].values
         y_test = test_data.iloc[:, -1].values
@@ -136,7 +112,7 @@ def main():
             ]
 
             for i,ms in enumerate(file_paths):
-                sub_model = load_model(ms)
+                sub_model = Load(ms,'model', logger, __file__).load_it()
                 metricsss = evaluate_model(sub_model, X_test,y_test)
                 mlflow.log_metric(f'accuracy {ms[-6:-4]}', metricsss['accuracy'])
 

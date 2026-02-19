@@ -7,10 +7,15 @@ import yaml
 import numpy as np
 import mlflow
 
-import dagshub
-dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+#importing helper module
+from helper.Loader import Load
 
-mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+
+
+# import dagshub
+# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+
+# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 
 
 
@@ -41,20 +46,6 @@ with open('data/logs/C_Feature_selection.log') as f:
     lines = f.readlines()
     init_log_length = len(lines)
 
-
-def load_data(file_path: str) -> pd.DataFrame:
-    """Load data from a CSV file."""
-    try:
-        df = pd.read_csv(file_path)
-        df.fillna('', inplace=True)
-        logger.debug('Data loaded and NaNs filled from %s', file_path)
-        return df
-    except pd.errors.ParserError as e:
-        logger.error('Failed to parse the CSV file: %s', e)
-        raise
-    except Exception as e:
-        logger.error('Unexpected error occurred while loading the data: %s', e)
-        raise
 
 
 def check_column_scores(cols, df):
@@ -127,11 +118,8 @@ def save_data(df: pd.DataFrame, file_path: str) -> None:
 def main():
     try:
 
-        # params = load_params(params_path='params.yaml')
-        # max_features = params['feature_engineering']['max_features']
-
-        train_data = load_data('./data/interim/train_processed.csv')
-        test_data = load_data('./data/interim/test_processed.csv')
+        train_data = Load('./data/interim/train_processed.csv', 'df', logger, __file__).load_it()
+        test_data = Load('./data/interim/test_processed.csv', 'df', logger, __file__).load_it()
 
         BestFeatures = FeatureSelection(train_data) + ['Species']
 
