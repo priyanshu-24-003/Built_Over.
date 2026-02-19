@@ -13,6 +13,7 @@ from sklearn.linear_model import LogisticRegression
 
 #importing helper module from parent
 from helper.Loader import Load
+from helper.Saver import Savy
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -67,7 +68,7 @@ def basic_model_training(X_train, Y_train):
         for key in basic_Models.keys():
                 basic_Models[key].fit(X_train, Y_train)
                 model_save_path = f'data/models/basic_M/{key}.pkl'
-                save_model(basic_Models[key], model_save_path)
+                Savy(model_save_path, 'model', logger, __file__, basic_Models[key],).save_it()
                 mlflow.sklearn.log_model(basic_Models[key], name=key)
 
         logger.debug('Basic model Training has been compleated')
@@ -82,8 +83,7 @@ def basic_model_training(X_train, Y_train):
 
 def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
     """
-    Train the RandomForest model.
-    
+    Train the RandomForest model.    
     :param X_train: Training features
     :param y_train: Training labels
     :param params: Dictionary of hyperparameters
@@ -124,37 +124,10 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
         logger.error('Error during model training: %s', e)
         raise
 
-
-
-def save_model(model, file_path: str) -> None:
-    """
-    Save the trained model to a file.
-    
-    :param model: Trained model object
-    :param file_path: Path to save the model file
-    """
-    try:
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        
-        with open(file_path, 'wb') as file:
-            pickle.dump(model, file)
-        logger.debug('Model saved to %s', file_path)
-        logger.debug('\n')
-
-    except FileNotFoundError as e:
-        logger.error('File path not found: %s', e)
-        raise
-    except Exception as e:
-        logger.error('Error occurred while saving the model in the pickle file: %s', e)
-        raise
-
-
-
 def main():
     try:
 
-        train_data = Load('./data/processed/train_final.csv', 'df', logger, __file__).load_it()
+        train_data = Load('./data/processed/train.csv', 'df', logger, __file__).load_it()
         X_train = train_data.iloc[:, :-1].values
         y_train = train_data.iloc[:, -1].values
 
@@ -166,7 +139,7 @@ def main():
 
 
         model_save_path = 'data/models/model.pkl'
-        save_model(clf, model_save_path)
+        Savy(model_save_path, 'model', logger, __file__, clf,).save_it()
 
     except Exception as e:
         logger.error('Failed to complete the model building process: %s', e)

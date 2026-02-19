@@ -6,6 +6,7 @@ import mlflow
 
 #importing helper module
 from helper.Loader import Load
+from helper.Saver import Savy
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -97,13 +98,8 @@ def main(text_column='text', target_column='target'):
 
         # Store the data inside data/processed
         data_path = os.path.join("./data", "interim")
-        os.makedirs(data_path, exist_ok=True)
-        
-        train_processed_data.to_csv(os.path.join(data_path, "train_processed.csv"), index=False)
-        test_processed_data.to_csv(os.path.join(data_path, "test_processed.csv"), index=False)
-        
-        logger.debug('Processed data saved to %s', data_path)
-        logger.debug('\n')
+        Savy(data_path, 'df', logger, __file__, train_processed_data, test_processed_data).save_it()
+
     except FileNotFoundError as e:
         logger.error('File not found: %s', e)
     except pd.errors.EmptyDataError as e:

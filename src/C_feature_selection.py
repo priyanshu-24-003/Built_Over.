@@ -9,7 +9,7 @@ import mlflow
 
 #importing helper module
 from helper.Loader import Load
-
+from helper.Saver import Savy
 
 
 # import dagshub
@@ -101,33 +101,20 @@ def FeatureSelection(df):
     pass
 
 
-
-def save_data(df: pd.DataFrame, file_path: str) -> None:
-    """Save the dataframe to a CSV file."""
-    try:
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        df.to_csv(file_path, index=False)
-        logger.debug('Data saved to %s', file_path)
-        logger.debug('\n')
-
-    except Exception as e:
-        logger.error('Unexpected error occurred while saving the data: %s', e)
-        raise
-
-
 def main():
     try:
 
-        train_data = Load('./data/interim/train_processed.csv', 'df', logger, __file__).load_it()
-        test_data = Load('./data/interim/test_processed.csv', 'df', logger, __file__).load_it()
+        train_data = Load('./data/interim/train.csv', 'df', logger, __file__).load_it()
+        test_data = Load('./data/interim/test.csv', 'df', logger, __file__).load_it()
 
         BestFeatures = FeatureSelection(train_data) + ['Species']
 
         train_df = train_data[BestFeatures]
         test_df = test_data[BestFeatures]
 
-        save_data(train_df, os.path.join("./data", "processed", "train_final.csv"))
-        save_data(test_df, os.path.join("./data", "processed", "test_final.csv"))
+        #Saving data
+        save_path = os.path.join("./data", "processed")
+        Savy(save_path, 'df', logger, __file__, train_df, test_df).save_it()
 
     except Exception as e:
         logger.error('Failed to complete the feature engineering process: %s', e)

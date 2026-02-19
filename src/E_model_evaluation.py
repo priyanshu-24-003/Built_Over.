@@ -10,6 +10,7 @@ import mlflow
 
 #importing helper module from parent
 from helper.Loader import Load
+from helper.Saver import Savy
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -65,25 +66,11 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
         logger.error('Error during model evaluation: %s', e)
         raise
 
-def save_metrics(metrics: dict, file_path: str) -> None:
-    """Save the evaluation metrics to a JSON file."""
-    try:
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-        with open(file_path, 'w') as file:
-            json.dump(metrics, file, indent=4)
-        logger.debug('Metrics saved to %s', file_path)
-        logger.debug('\n')
-
-    except Exception as e:
-        logger.error('Error occurred while saving the metrics: %s', e)
-        raise
 
 def main():
     try:
         clf = Load('./data/models/model.pkl', 'model', logger, __file__).load_it()
-        test_data = Load('./data/processed/test_final.csv', 'df', logger, __file__).load_it()
+        test_data = Load('./data/processed/test.csv', 'df', logger, __file__).load_it()
         
         X_test = test_data.iloc[:, :-1].values
         y_test = test_data.iloc[:, -1].values
@@ -98,7 +85,9 @@ def main():
         # for key in basic_Models.keys():
         #     with mlflow.start_run(nested=True) as child:
         
-        save_metrics(metrics, './data/reports/metrics.json')
+        print(metrics)
+        save_metric = Savy('./data/reports/metrics.json', 'report', logger, __file__, metrics,)
+        save_metric.save_it()
 
         try:
             logger.debug('nested logging started')

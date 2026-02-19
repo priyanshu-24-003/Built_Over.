@@ -8,6 +8,7 @@ import mlflow
 
 #importing helper module from parent
 from helper.Loader import Load
+from helper.Saver import Savy
 
 #Remote server tracking using dagshub
 # import dagshub
@@ -69,19 +70,6 @@ def basic_processing(df):
 
     return df
 
-def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str) -> None:
-    """Save the train and test datasets."""
-    try:
-        raw_data_path = data_path
-        os.makedirs(raw_data_path, exist_ok=True)
-        train_data.to_csv(os.path.join(raw_data_path, "train.csv"), index=False)
-        test_data.to_csv(os.path.join(raw_data_path, "test.csv"), index=False)
-        logger.debug('Train and test data saved to %s', raw_data_path)
-        logger.debug('\n')
-    except Exception as e:
-        logger.error('Unexpected error occurred while saving the data: %s', e)
-        raise
-
 def main():    
     data = Load("data/src/palmer_penguins.csv", 'df', logger=logger, component=__file__)
     df = data.load_it()
@@ -95,7 +83,7 @@ def main():
     #logging param test_size
     mlflow.log_param('test_size', test_siz)
 
-    save_data(XY, xy, './data/raw')
+    Savy('./data/raw', 'df', logger, __file__, XY, xy).save_it()
 
     with open("data/logs/data_ingestion.log") as f2:
         liness = f2.readlines()
