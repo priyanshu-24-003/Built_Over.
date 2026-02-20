@@ -13,3 +13,5 @@ data/current_exp.log
 mlflow.db
 mlruns
 rough.py
+__pycache__
+src.egg-info
