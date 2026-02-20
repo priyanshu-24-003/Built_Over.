@@ -11,6 +11,8 @@ import mlflow
 #importing helper module from parent
 from helper.Loader import Load
 from helper.Saver import Savy
+from helper.Logster import Logy
+
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -19,27 +21,10 @@ from helper.Saver import Savy
 
 
 # Ensure the "logs" directory exists
-log_dir = 'data/logs'
 
-os.makedirs(log_dir, exist_ok=True)
 
-# logging configuration
-logger = logging.getLogger('E_model_evaluation')
-logger.setLevel('DEBUG')
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel('DEBUG')
-
-log_file_path = os.path.join(log_dir, 'E_model_evaluation.log')
-file_handler = logging.FileHandler(log_file_path)
-file_handler.setLevel('DEBUG')
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+LE = Logy('E_model_evaluation.log','data')
+logger = LE.get_this_logy()
 
 
 with open('data/logs/E_model_evaluation.log') as f:

@@ -7,6 +7,8 @@ import mlflow
 #importing helper module
 from helper.Loader import Load
 from helper.Saver import Savy
+from helper.Logster import Logy
+
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -16,27 +18,12 @@ from helper.Saver import Savy
 
 
 # creating a log file for later debbuging.
-log_dir = 'data/logs'
 
-os.makedirs(log_dir, exist_ok=True)
 
-# Setting up logger
-logger = logging.getLogger('B_preparation')
-logger.setLevel('DEBUG')
+LB = Logy('B_preparation.log','data')
+logger = LB.get_this_logy()
 
-console_handler = logging.StreamHandler()
-console_handler.setLevel('DEBUG')
 
-log_file_path = os.path.join(log_dir, 'B_preparation.log')
-file_handler = logging.FileHandler(log_file_path)
-file_handler.setLevel('DEBUG')
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(console_handler)
-logger.addHandler(file_handler)
 
 with open('data/logs/B_preparation.log') as f:
     lines = f.readlines()

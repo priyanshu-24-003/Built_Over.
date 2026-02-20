@@ -10,6 +10,7 @@ import mlflow
 #importing helper module
 from helper.Loader import Load
 from helper.Saver import Savy
+from helper.Logster import Logy
 
 
 # import dagshub
@@ -20,26 +21,9 @@ from helper.Saver import Savy
 
 
 # Ensure the "logs" directory exists
-log_dir = 'data/logs'
 
-os.makedirs(log_dir, exist_ok=True)
-
-logger = logging.getLogger('C_Feature_selection')
-logger.setLevel('DEBUG')
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel('DEBUG')
-
-log_file_path = os.path.join(log_dir, 'C_Feature_selection.log')
-file_handler = logging.FileHandler(log_file_path)
-file_handler.setLevel('DEBUG')
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+LC= Logy('C_Feature_selection.log','data')
+logger = LC.get_this_logy()
 
 
 with open('data/logs/C_Feature_selection.log') as f:

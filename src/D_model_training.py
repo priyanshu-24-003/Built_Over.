@@ -14,6 +14,8 @@ from sklearn.linear_model import LogisticRegression
 #importing helper module from parent
 from helper.Loader import Load
 from helper.Saver import Savy
+from helper.Logster import Logy
+
 
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
@@ -23,27 +25,9 @@ from helper.Saver import Savy
 
 
 # Ensure the "logs" directory exists
-log_dir = 'data/logs'
 
-os.makedirs(log_dir, exist_ok=True)
-
-# logging configuration
-logger = logging.getLogger('D_Model_training')
-logger.setLevel('DEBUG')
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel('DEBUG')
-
-log_file_path = os.path.join(log_dir, 'D_Model_Training.log')
-file_handler = logging.FileHandler(log_file_path)
-file_handler.setLevel('DEBUG')
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(console_handler)
-logger.addHandler(file_handler)
+LD = Logy('D_Model_Training.log','data')
+logger = LD.get_this_logy()
 
 
 with open('data/logs/D_Model_Training.log') as f:

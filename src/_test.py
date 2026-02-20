@@ -43,7 +43,7 @@ def test_feature_selection():
 def test_Evaluation():
     
     try:        
-        Log_check('data/logs/C_Feature_selection.log', -7)
+        Log_check('data/logs/D_Model_Training.log', -7)
     except Exception as e:
         raise e
     
@@ -52,7 +52,7 @@ def test_Evaluation():
 def test_Model_training():
     
     try:        
-        Log_check('data/logs/C_Feature_selection.log', -7)
+        Log_check('data/logs/E_model_evaluation.log', -7)
     except Exception as e:
         raise e
     
