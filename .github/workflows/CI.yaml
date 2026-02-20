@@ -1,0 +1,45 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: python installation
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10.19'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest streamlit
+
+    - name: Run A
+      run: python src/A_data_injestion.py
+
+    - name: Run B
+      run: python src/B_preperation.py
+
+    - name: Run C
+      run: python src/C_feature_selection.py
+
+    - name: Run D
+      run: python src/D_model_training.py
+
+    - name: Run E
+      run: python src/E_model_evaluation.py
+
+    - name: Run tests
+      run: pytest _test.py
