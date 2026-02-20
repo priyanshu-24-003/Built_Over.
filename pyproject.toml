@@ -1,0 +1,11 @@
+[project]
+name = "src"
+version = "0.0.1"
+description = "pipeline components and helper module"
+authors = [{name = "Priyanshu Purohit", email = "priyanshu24003@gmail.com"}]
+
+[tool.setuptools]
+packages = {find = {}}
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
