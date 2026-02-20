@@ -9,13 +9,50 @@ import helper as H
 #     assert sum([1,2, 3]) == 6, 'just a silly test'
 #     pass
 
-def test_A():
+def Log_check(filename, recentlogN):
+    with open(filename) as file:
+        
+        r = file.readlines()[-recentlogN:]
+        allone = ''.join(r)
+        if 'ERROR' in allone:
+            raise "ERROR IN DATA_INJESTION"
+
+def test_Data_ingestion():
     try:        
-        with open('data/logs/data_ingestion.log') as file:
-            
-            r = file.readlines()[-6:]
-            allone = ''.join(r)
-            if 'ERROR' in allone:
-                raise "ERROR IN DATA_INJESTION"
+        Log_check('data/logs/data_ingestion.log', -6)
     except Exception as e:
         raise e
+    
+def test_data_preparation():
+    
+    try:        
+        Log_check('data/logs/B_preparation.log', -6)
+    except Exception as e:
+        raise e
+    
+
+def test_feature_selection():
+    
+    try:        
+        Log_check('data/logs/C_Feature_selection.log', -6)
+    except Exception as e:
+        raise e
+    
+
+
+def test_Evaluation():
+    
+    try:        
+        Log_check('data/logs/C_Feature_selection.log', -7)
+    except Exception as e:
+        raise e
+    
+
+
+def test_Model_training():
+    
+    try:        
+        Log_check('data/logs/C_Feature_selection.log', -7)
+    except Exception as e:
+        raise e
+    
