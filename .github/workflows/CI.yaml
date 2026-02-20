@@ -42,4 +42,4 @@ jobs:
       run: python src/E_model_evaluation.py
 
     - name: Run tests
-      run: pytest .\src\_test.py
+      run: pytest src\_test.py
