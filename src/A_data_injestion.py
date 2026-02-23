@@ -21,11 +21,6 @@ LA = Logy('data_ingestion.log','data')
 logger = LA.get_this_logy()
 
 
-with open('data/logs/data_ingestion.log') as f:
-    lines = f.readlines()
-    init_log_length = len(lines)
-
-
 def train_test_spliter(df, test_size, random_state):
     try:
         XY, xy = train_test_split(df, test_size=test_size, random_state=random_state)
@@ -65,12 +60,7 @@ def main():
 
     Savy('./data/raw', 'df', logger, __file__, XY, xy).save_it()
 
-    with open("data/logs/data_ingestion.log") as f2:
-        liness = f2.readlines()
-        
-        with open('data/current_exp.log', 'a') as f3:
-            f3.writelines(liness[init_log_length:])
-
+  
 
 if __name__ == '__main__':
     main()

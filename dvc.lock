@@ -9,8 +9,8 @@ stages:
       size: 50914
     - path: src/A_data_injestion.py
       hash: md5
-      md5: f1ef6d612dea68fdba7ad1cd1ebc3ce6
-      size: 2344
+      md5: f5a060ca6836bb94aa9d2d0cdceed179
+      size: 2027
     outs:
     - path: data/raw
       hash: md5
@@ -27,8 +27,8 @@ stages:
       nfiles: 2
     - path: src/B_preperation.py
       hash: md5
-      md5: 8d54a979b38caf416742cb4804c7c07b
-      size: 2897
+      md5: 6090e65b5d247f68f68d25c07bf6a6e9
+      size: 2578
     outs:
     - path: data/interim
       hash: md5
@@ -58,13 +58,13 @@ stages:
     deps:
     - path: data/processed
       hash: md5
-      md5: b28af0bb2bbced0e50187fe58e286335.dir
-      size: 5095
+      md5: 8c25e813a1f6059dea9fb84f9d36dceb.dir
+      size: 5096
       nfiles: 2
     - path: src/D_model_training.py
       hash: md5
-      md5: 8b4e4d06da700a12329bd3cd088f98b4
-      size: 4068
+      md5: 8dd0654fdb5137b6da0bf29dcab05953
+      size: 5901
     outs:
     - path: data/models/basic_M/LR.pkl
       hash: md5
@@ -72,25 +72,43 @@ stages:
       size: 811
     - path: data/models/basic_M/RF.pkl
       hash: md5
-      md5: 025eb9dd06d3428e2790aab722a0f174
-      size: 290219
+      md5: ec99c1f7f2b39b61209575c2fc9b3511
+      size: 280891
     - path: data/models/model.pkl
       hash: md5
-      md5: 38df9d65b1c9ffac0143b06995e2e5ee
-      size: 4280
+      md5: fecb29b75f71dea0205cb28b48e3b9c6
+      size: 5487
   model_evaluation:
     cmd: python src/E_model_evaluation.py
     deps:
     - path: data/models/model.pkl
       hash: md5
-      md5: 38df9d65b1c9ffac0143b06995e2e5ee
-      size: 4280
+      md5: fecb29b75f71dea0205cb28b48e3b9c6
+      size: 5487
     - path: src/E_model_evaluation.py
       hash: md5
-      md5: 8bb7b1102dff41cd0416115b05a405b7
-      size: 3929
+      md5: 6ddfe49dfc2c5dad5dffca48827bb828
+      size: 3602
     outs:
     - path: data/reports/metrics.json
       hash: md5
-      md5: 1b6f77e6a0d42ecae81289f7f71b65a9
-      size: 1042
+      md5: 784c075c193979c35d92333f4459d1fb
+      size: 1048
+  feature_Selection:
+    cmd: python src/C_feature_selection.py
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: 06595a18ba868d05213b1b7ff7c59925.dir
+      size: 10172
+      nfiles: 2
+    - path: src/C_feature_selection.py
+      hash: md5
+      md5: 8496902dfcc3debafa6233828cbc0d5d
+      size: 2881
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 8c25e813a1f6059dea9fb84f9d36dceb.dir
+      size: 5096
+      nfiles: 2

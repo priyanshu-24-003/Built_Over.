@@ -27,10 +27,6 @@ LE = Logy('E_model_evaluation.log','data')
 logger = LE.get_this_logy()
 
 
-with open('data/logs/E_model_evaluation.log') as f:
-    lines = f.readlines()
-    init_log_length = len(lines)
-
 
 def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
     """Evaluate the model and return the evaluation metrics."""
@@ -106,12 +102,6 @@ def main():
     except Exception as e:
         logger.error('Failed to complete the model evaluation process: %s', e)
         print(f"Error: {e}")
-
-    with open("data/logs/E_model_evaluation.log") as f2:
-        liness = f2.readlines()
-        
-        with open('data/current_exp.log', 'a') as f3:
-            f3.writelines(liness[init_log_length:])
 
 
 

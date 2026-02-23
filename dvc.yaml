@@ -15,7 +15,7 @@ stages:
     - src/B_preperation.py
     outs:
     - data/interim
-  feature_engineering:
+  feature_Selection:
     cmd: python src/C_feature_selection.py
     deps:
     - data/interim

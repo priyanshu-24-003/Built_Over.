@@ -25,10 +25,6 @@ logger = LB.get_this_logy()
 
 
 
-with open('data/logs/B_preparation.log') as f:
-    lines = f.readlines()
-    init_log_length = len(lines)
-
 
 
 def prep_penguins_data(data, trORte):
@@ -94,13 +90,6 @@ def main(text_column='text', target_column='target'):
     except Exception as e:
         logger.error('Failed to complete the data transformation process: %s', e)
         print(f"Error: {e}")
-
-    with open("data/logs/B_preparation.log") as f2:
-        liness = f2.readlines()
-        
-        with open('data/current_exp.log', 'a') as f3:
-            f3.writelines(liness[init_log_length:])
-
 
 if __name__ == '__main__':
     main()

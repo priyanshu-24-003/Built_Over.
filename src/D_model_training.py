@@ -29,11 +29,22 @@ from helper.Logster import Logy
 LD = Logy('D_Model_Training.log','data')
 logger = LD.get_this_logy()
 
-
-with open('data/logs/D_Model_Training.log') as f:
-    lines = f.readlines()
-    init_log_length = len(lines)
-
+def load_params(params_path: str) -> dict:
+    """Load parameters from a YAML file."""
+    try:
+        with open(params_path, 'r') as file:
+            params = yaml.safe_load(file)
+        logger.debug('Parameters retrieved from %s', params_path)
+        return params
+    except FileNotFoundError:
+        logger.error('File not found: %s', params_path)
+        raise
+    except yaml.YAMLError as e:
+        logger.error('YAML error: %s', e)
+        raise
+    except Exception as e:
+        logger.error('Unexpected error: %s', e)
+        raise
 
 def basic_model_training(X_train, Y_train):
     """
@@ -62,8 +73,37 @@ def basic_model_training(X_train, Y_train):
         raise
         
     return basic_Models
-    
 
+def check_models(X_train_small, y_train_small,x_test, y_test):
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.neighbors import KNeighborsClassifier
+
+    try:
+        logger.debug('multimodel training started with small training data')
+
+        m1 = LogisticRegression()
+        m1.fit(X_train_small, y_train_small)
+        s1 = m1.score(x_test, y_test)
+
+        
+        m2 = DecisionTreeClassifier()
+        m2.fit(X_train_small, y_train_small)
+        s2 = m2.score(x_test,y_test)
+
+
+        m3 = KNeighborsClassifier()
+        m3.fit(X_train_small, y_train_small)
+        s3 = m3.score(x_test, y_test)
+
+        score2model = {s1:m1, s2:m2, s3:m3}
+        best = max(score2model.keys())
+        logger.debug(f'the best out of 3 models has been trained and returned {score2model[best]} with mini testing score {best}')
+        return score2model[best]
+
+    except Exception as e:
+        logger.error("error line 104, multi model training , ")
+        raise 
 
 def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
     """
@@ -110,13 +150,22 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
 
 def main():
     try:
+        params = load_params('params.yaml')['model_building']
+        # print(params, 'params loaded', type(params))
 
         train_data = Load('./data/processed/train.csv', 'df', logger, __file__).load_it()
-        X_train = train_data.iloc[:, :-1].values
-        y_train = train_data.iloc[:, -1].values
 
-        clf = train_model(X_train, y_train,)
-        
+        if params['model_types'] == "main":
+            X_train = train_data.iloc[:, :-1].values
+            y_train = train_data.iloc[:, -1].values
+
+            clf = train_model(X_train, y_train,)
+        elif params['model_types'] == 'multi':
+            test_data = Load('./data/processed/test.csv', 'df', logger, __file__).load_it()
+            x_test = test_data.iloc[:10, :-1].values
+            y_test = test_data.iloc[:10, -1].values
+            clf = check_models(train_data.iloc[:100, :-1], train_data.iloc[:100, -1], x_test, y_test)
+            
         #loggin the model in MLFlow
         mlflow.sklearn.log_model(clf, 'SupportVectorClassifier')
         #loggin the model in MLFlow
@@ -128,12 +177,6 @@ def main():
     except Exception as e:
         logger.error('Failed to complete the model building process: %s', e)
         print(f"Error: {e}")
-
-    with open("data/logs/D_Model_Training.log") as f2:
-        liness = f2.readlines()
-        
-        with open('data/current_exp.log', 'a') as f3:
-            f3.writelines(liness[init_log_length:])
 
   
 

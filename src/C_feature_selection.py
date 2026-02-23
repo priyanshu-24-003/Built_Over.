@@ -26,10 +26,6 @@ LC= Logy('C_Feature_selection.log','data')
 logger = LC.get_this_logy()
 
 
-with open('data/logs/C_Feature_selection.log') as f:
-    lines = f.readlines()
-    init_log_length = len(lines)
-
 
 
 def check_column_scores(cols, df):
@@ -104,13 +100,7 @@ def main():
         logger.error('Failed to complete the feature engineering process: %s', e)
         print(f"Error: {e}")
  
-    with open("data/logs/C_Feature_selection.log") as f2:
-        liness = f2.readlines()
-        
-        with open('data/current_exp.log', 'a') as f3:
-            f3.writelines(liness[init_log_length:])
 
- 
 
 if __name__ == '__main__':
     main()
