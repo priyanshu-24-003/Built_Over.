@@ -16,3 +16,4 @@ rough.py
 __pycache__
 src.egg-info
 .pytest_cache
+.dvc/
