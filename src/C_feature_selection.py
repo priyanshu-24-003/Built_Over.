@@ -12,20 +12,8 @@ from helper.Loader import Load
 from helper.Saver import Savy
 from helper.Logster import Logy
 
-
-# import dagshub
-# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
-
-# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
-
-
-
-# Ensure the "logs" directory exists
-
 LC= Logy('C_Feature_selection.log','data')
 logger = LC.get_this_logy()
-
-
 
 
 def check_column_scores(cols, df):
@@ -42,7 +30,6 @@ def check_column_scores(cols, df):
     float : average of 5 cross validation scores
     """
     
-    #Logistic Regression Model
     LR = LogisticRegression(max_iter = 5000)
     
     df2 = df.copy()

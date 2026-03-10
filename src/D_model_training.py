@@ -17,15 +17,6 @@ from helper.Saver import Savy
 from helper.Logster import Logy
 
 
-# import dagshub
-# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
-
-# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
-
-
-
-# Ensure the "logs" directory exists
-
 LD = Logy('D_Model_Training.log','data')
 logger = LD.get_this_logy()
 
@@ -150,7 +141,6 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
 def main():
     try:
         params = load_params('params.yaml')['model_building']
-        # print(params, 'params loaded', type(params))
 
         train_data = Load('./data/processed/train.csv', 'df', logger, __file__).load_it()
 

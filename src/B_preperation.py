@@ -9,22 +9,8 @@ from helper.Loader import Load
 from helper.Saver import Savy
 from helper.Logster import Logy
 
-
-# import dagshub
-# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
-
-# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
-
-
-
-# creating a log file for later debbuging.
-
-
 LB = Logy('B_preparation.log','data')
 logger = LB.get_this_logy()
-
-
-
 
 
 def prep_penguins_data(data, trORte):
@@ -40,17 +26,13 @@ def prep_penguins_data(data, trORte):
     (X, y) : pandas.DataFrame without Species column, pandas.Series of Species column
     """
     
-    #Copy data frame
     df = data.copy()
     
     try:
-        #Create LabelEncoder
         le = preprocessing.LabelEncoder()
         
-        #Encode Sex column in data frame
         df["Sex"] = le.fit_transform(df["Sex"])
         
-        #Encode Island column in data frame
         df["Island"] = le.fit_transform(df["Island"])
         
         df["Species"] = le.fit_transform(df["Species"])
@@ -75,11 +57,9 @@ def main(text_column='text', target_column='target'):
         test_data = Load('./data/raw/test.csv', 'df', logger, __file__).load_it()
 
 
-        # Transform the data
         train_processed_data = prep_penguins_data(train_data, 'train data', )
         test_processed_data = prep_penguins_data(test_data,'test data')
 
-        # Store the data inside data/processed
         data_path = os.path.join("./data", "interim")
         Savy(data_path, 'df', logger, __file__, train_processed_data, test_processed_data).save_it()
 

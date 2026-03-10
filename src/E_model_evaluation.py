@@ -13,16 +13,7 @@ from helper.Loader import Load
 from helper.Saver import Savy
 from helper.Logster import Logy
 
-
-
-# import dagshub
-# dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
-
-# mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-
-# Ensure the "logs" directory exists
-
 
 LE = Logy('E_model_evaluation.log','data')
 logger = LE.get_this_logy()
@@ -33,7 +24,6 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
     """Evaluate the model and return the evaluation metrics."""
     try:
         y_pred = clf.predict(X_test)
-        # y_pred_proba = clf.predict_proba(X_test)[:, 1]
 
         accuracy = accuracy_score(y_test, y_pred)
         report = classification_report(y_test, y_pred, output_dict=True)
