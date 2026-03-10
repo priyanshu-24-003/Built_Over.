@@ -1,7 +1,7 @@
 
 
 model_building:
-  model_types: multi # multi?
+  model_types: main # multi?
 
 
   
