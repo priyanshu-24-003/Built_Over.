@@ -14,11 +14,12 @@ from helper.Saver import Savy
 from helper.Logster import Logy
 
 
+
 # import dagshub
 # dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
 
 # mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
-
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 # Ensure the "logs" directory exists
 
@@ -50,55 +51,38 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
 
 def main():
     try:
-        clf = Load('./data/models/model.pkl', 'model', logger, __file__).load_it()
-        test_data = Load('./data/processed/test.csv', 'df', logger, __file__).load_it()
-        
-        X_test = test_data.iloc[:, :-1].values
-        y_test = test_data.iloc[:, -1].values
-                
-        metrics = evaluate_model(clf, X_test, y_test)
+        with mlflow.start_run() as run:
 
-        ## logging metrics
-        mlflow.log_metric('accuracy',metrics['accuracy'])
-        ## logging metrics
-
-        ##logging comaparion , child models we had saved earliear 
-        # for key in basic_Models.keys():
-        #     with mlflow.start_run(nested=True) as child:
-        
-        print(metrics)
-        save_metric = Savy('./data/reports/metrics.json', 'report', logger, __file__, metrics,)
-        save_metric.save_it()
-
-        try:
-            logger.debug('nested logging started')
-            ## logging accuracies of basic models for comparisions
-            folder = "./data/models/basic_M"   # ← change this
-
-            file_paths = [
-                os.path.join(folder, filename)
-                for filename in os.listdir(folder)
-                if os.path.isfile(os.path.join(folder, filename))
-            ]
-
-            for i,ms in enumerate(file_paths):
-                sub_model = Load(ms,'model', logger, __file__).load_it()
-                metricsss = evaluate_model(sub_model, X_test,y_test)
-                mlflow.log_metric(f'accuracy {ms[-6:-4]}', metricsss['accuracy'])
-
-                #logging inside child runs
-                with mlflow.start_run(nested=True) as child:
+            clf = Load('./data/models/model.pkl', 'model', logger, __file__).load_it()
+            test_data = Load('./data/processed/test.csv', 'df', logger, __file__).load_it()
+            
+            X_test = test_data.iloc[:, :-1].values
+            y_test = test_data.iloc[:, -1].values
                     
-                    mlflow.sklearn.log_model(sub_model, name=ms[-6:-4])
-                    mlflow.log_metric('accuracy', metricsss['accuracy'])
-                    mlflow.set_tag('model_name',f'{ms[-6:-4]}')
+            metrics = evaluate_model(clf, X_test, y_test)
+            
+            save_metric = Savy('./data/reports/metrics.json', 'report', logger, __file__, metrics,)
+            save_metric.save_it()
 
-                logger.debug('nested logging Finished')
+            # Logging data neccessory for experiment tracking
 
-        except Exception as e:
-            logger.error('Error while doing nested logging for LR, RF comparision')
+            #log metrics
+            mlflow.log_metric('accuracy',metrics['accuracy'], )
 
-        logger.debug('report generated successfully')
+            #log the training and testing data
+
+            mlflow.log_artifacts('./data/processed')
+
+            #logging the paramsfile
+            mlflow.log_artifact('./params.yaml')
+
+            #log the model 
+            mlflow.sklearn.log_model(clf, 'Model_')
+
+            #log the reports
+            mlflow.log_artifact('./data/reports/metrics.json')
+
+            logger.debug('report generated successfully')
     except Exception as e:
         logger.error('Failed to complete the model evaluation process: %s', e)
         print(f"Error: {e}")

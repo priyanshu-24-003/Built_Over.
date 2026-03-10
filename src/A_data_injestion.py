@@ -53,10 +53,7 @@ def main():
 
     test_siz = 0.2
 
-    XY, xy = train_test_spliter(df, test_siz, 42)
-    
-    #logging param test_size
-    mlflow.log_param('test_size', test_siz)
+    XY, xy = train_test_spliter(df, test_siz, 42)   
 
     Savy('./data/raw', 'df', logger, __file__, XY, xy).save_it()
 

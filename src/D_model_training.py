@@ -64,7 +64,6 @@ def basic_model_training(X_train, Y_train):
                 basic_Models[key].fit(X_train, Y_train)
                 model_save_path = f'data/models/basic_M/{key}.pkl'
                 Savy(model_save_path, 'model', logger, __file__, basic_Models[key],).save_it()
-                mlflow.sklearn.log_model(basic_Models[key], name=key)
 
         logger.debug('Basic model Training has been compleated')
         
@@ -166,10 +165,6 @@ def main():
             y_test = test_data.iloc[:10, -1].values
             clf = check_models(train_data.iloc[:100, :-1], train_data.iloc[:100, -1], x_test, y_test)
             
-        #loggin the model in MLFlow
-        mlflow.sklearn.log_model(clf, 'SupportVectorClassifier')
-        #loggin the model in MLFlow
-
 
         model_save_path = 'data/models/model.pkl'
         Savy(model_save_path, 'model', logger, __file__, clf,).save_it()
