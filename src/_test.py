@@ -54,5 +54,6 @@ def test_Model_training():
     try:        
         Log_check('data/logs/E_model_evaluation.log', -7)
     except Exception as e:
+
         raise e
     
