@@ -13,18 +13,10 @@ from helper.Loader import Load
 from helper.Saver import Savy
 from helper.Logster import Logy
 
-## Local tracking server setup
-# mlflow.set_tracking_uri("http://127.0.0.1:5000")
-## Local tracking server setup
+# Local tracking server setup
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+# Local tracking server setup
 
-
-## Remote Tracking server setup
-import dagshub
-dagshub.init(repo_owner='priyanshu24003', repo_name='Built_Over.', mlflow=True)
-
-mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/Built_Over..mlflow")
-
-## Remote Tracking server setup
 
 LE = Logy('E_model_evaluation.log','data')
 logger = LE.get_this_logy()
