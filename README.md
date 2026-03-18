@@ -11,13 +11,13 @@ Showcasing **real-world MLOps** practices on a clean, well-known dataset.
 
 **Built_Over** is a **heavily enhanced fork** of a classic Palmer Penguins species classification project.
 
-The goal was **not** just building another model — but demonstrating how to take a simple ML task and bring it to **production-grade standards** using:
+The goal was **not** just building another model — but demonstrating how to use **Mlops Concepts** using:
 
-- Clean **object-oriented** code structure
+- Used **object-oriented** code structure
 - **Data versioning** (hard data + pipeline)
 - **Experiment tracking** & artifact logging
-- **Remote experiment storage**
-- **Continuous Integration** (automated testing)
+- **Remote experiment storage** 
+- **Continuous Integration** (automated testing), 
 - **Containerization** readiness
 
 All while keeping the beloved **Palmer Penguins** dataset (Adelie, Chinstrap, Gentoo 🐧).
@@ -32,6 +32,4 @@ All while keeping the beloved **Palmer Penguins** dataset (Adelie, Chinstrap, Ge
 | 🧪 Continuous Integration    | **GitHub Actions**                     | Automated tests for components, pipeline validation, logger checks                  |
 | 🐳 Containerization          | **Docker**                             | Dockerfile + image build setup (ready for future deployment)                        |
 | 🛠 Clean Code Architecture   | **OOP principles**                     | Modular helpers: `Loader`, `Saver`, `Logster` + inheritance usage                   |
-| 🔄 Reproducibility           | DVC + `dvc.lock` + MLflow              | Commit after every meaningful pipeline change — fast local runs without `dvc repro` |
-
-## 🏗 Project Structure (typical layout)
+| 🔄 Reproducibility           | DVC + `dvc.lock` + dvc repro              | Commit after every meaningful pipeline change — fast local runs without `dvc repro` |
