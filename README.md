@@ -1,7 +1,7 @@
 # Built_Over 🐧➜🔧
 
-**Production-grade evolution of the famous Palmer Penguins classification project**  
-Showcasing **real-world MLOps** practices on a clean, well-known dataset.
+About
+Built_Over. is a derivative Repository of forked repo palmer-penguins-classification ,This Repo uses MLOPs concepts OOPs, data versioning, experiment tracking, continuous Integration and few more.
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![MLOps](https://img.shields.io/badge/MLOps-DVC%20%7C%20MLflow%20%7C%20DagsHub%20%7C%20GitHub%20Actions-important)](https://mlops.community/)
