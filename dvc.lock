@@ -58,8 +58,8 @@ stages:
     deps:
     - path: data/processed
       hash: md5
-      md5: 8c25e813a1f6059dea9fb84f9d36dceb.dir
-      size: 5096
+      md5: b28af0bb2bbced0e50187fe58e286335.dir
+      size: 5095
       nfiles: 2
     - path: src/D_model_training.py
       hash: md5
@@ -68,23 +68,23 @@ stages:
     outs:
     - path: data/models/basic_M/LR.pkl
       hash: md5
-      md5: ab4d3a8bd68e823a8c34ab0612db8319
-      size: 777
+      md5: 62bda3608f6853b54674e6bd2419212f
+      size: 811
     - path: data/models/basic_M/RF.pkl
       hash: md5
-      md5: 2ab870efdd0fa3dea9f29a974becef8f
-      size: 290571
+      md5: fb921f2e17ab2eef2c3953caf919cd2a
+      size: 291099
     - path: data/models/model.pkl
       hash: md5
-      md5: f77011275cbb50793f777cf9bcd74047
-      size: 4246
+      md5: 1ff27ddd49aa54e562338bb5f226d495
+      size: 4280
   model_evaluation:
     cmd: python src/E_model_evaluation.py
     deps:
     - path: data/models/model.pkl
       hash: md5
-      md5: f77011275cbb50793f777cf9bcd74047
-      size: 4246
+      md5: 1ff27ddd49aa54e562338bb5f226d495
+      size: 4280
     - path: src/E_model_evaluation.py
       hash: md5
       md5: a61057977ae64177c4578a1cb99b0b60
@@ -109,6 +109,6 @@ stages:
     outs:
     - path: data/processed
       hash: md5
-      md5: 8c25e813a1f6059dea9fb84f9d36dceb.dir
-      size: 5096
+      md5: b28af0bb2bbced0e50187fe58e286335.dir
+      size: 5095
       nfiles: 2
