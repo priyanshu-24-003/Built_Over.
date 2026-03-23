@@ -11,11 +11,9 @@ experiments/
 mlflow.db
 data/interim
 data/logs
-data/models
-data/processed
 data/reports
 data/raw
 Project_flow.txt    # optional, not needed for repro
 TO_USE_AGENDA.txt
 README.md
-src/
+src
