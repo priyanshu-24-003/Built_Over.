@@ -13,8 +13,7 @@ COPY data/models/model.pkl ./data/models/model.pkl
 
 # COPY requirements.txt .
 # RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install pandas
-RUN pip install scikit-learn
+RUN pip install --no-cache-dir pandas scikit-learn
 
 # Run the application
 CMD ["python", "app.py"]

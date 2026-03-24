@@ -30,6 +30,6 @@ All while keeping the beloved **Palmer Penguins** dataset (Adelie, Chinstrap, Ge
 | 📦 Remote Data & Model Store  | **DagsHub**                            | DVC remote storage + MLflow remote tracking server                                  |
 | 📊 Experiment Tracking       | **MLflow**                             | Logged metrics, parameters, models, datasets, figures — viewable in MLflow UI       |
 | 🧪 Continuous Integration    | **GitHub Actions**                     | Automated tests for components, pipeline validation, logger checks                  |
-| 🐳 Containerization          | **Docker**                             | Dockerfile + image build setup (ready for future deployment)                        |
+| 🐳 Containerization          | **Docker**                             | Built Docker image for app.py + pushed image to dockerhub :https://hub.docker.com/r/priyan5hu/builtover/tags                      |
 | 🛠 Clean Code Architecture   | **OOP principles**                     | Modular helpers: `Loader`, `Saver`, `Logster` + inheritance usage                   |
 | 🔄 Reproducibility           | DVC + `dvc.lock` + dvc repro              | Commit after every meaningful pipeline change — fast local runs without `dvc repro` |
