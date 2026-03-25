@@ -3,7 +3,7 @@
 ## About
 Built_Over. is a derivative Repository of forked repo palmer-penguins-classification ,This Repo uses MLOPs concepts OOPs, data versioning, experiment tracking, continuous Integration and few more.
 
-## 🎯 Purpose
+## Purpose
 
 The goal was **not** just building another model — but demonstrating how to implement following **Mlops Concepts** :
 
@@ -26,11 +26,11 @@ The goal was **not** just building another model — but demonstrating how to im
 
 ## Scope of Improvement
 
-- Complete containarization of the Project reproduce the entire pipeline using New data in some other machine or server and view experiment mlflow.ui in it.
-- Deveral parameters related to different components in src can be added to params.yaml.
-- Storage Bucket such as s3 can be used instead of dagshub.
+- Complete containarization of the Project to reproduce the entire pipeline using New data in some other machine or server and view experiment mlflow.ui in it.
+- Several parameters related to different components in src can be added inside params.yaml.
+- Storage Bucket such as AWS s3 can be used instead of dagshub.
 - child runs can be added to see how different models perform using mlflow.
-- We can introce Complexity to the project by doing experimentation in different stages of the pipeline
+- We can introce Complexity to the project by doing experimentation in different stages of the pipeline.
 - we can try differnt tools to accomplish same tasks.
 
 
