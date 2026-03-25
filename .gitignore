@@ -19,3 +19,4 @@ src.egg-info
 .dvc/
 mlartifacts
 live_testing/live_test.csv
+remarks_for_future_me.txt

@@ -1,35 +1,37 @@
-# Built_Over 🐧➜🔧
+# Built_Over 
 
-About
+## About
 Built_Over. is a derivative Repository of forked repo palmer-penguins-classification ,This Repo uses MLOPs concepts OOPs, data versioning, experiment tracking, continuous Integration and few more.
-
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![MLOps](https://img.shields.io/badge/MLOps-DVC%20%7C%20MLflow%20%7C%20DagsHub%20%7C%20GitHub%20Actions-important)](https://mlops.community/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🎯 Purpose
 
-**Built_Over** is a **heavily enhanced fork** of a classic Palmer Penguins species classification project.
+The goal was **not** just building another model — but demonstrating how to implement following **Mlops Concepts** :
 
-The goal was **not** just building another model — but demonstrating how to use **Mlops Concepts** using:
-
-- Used **object-oriented** code structure
-- **Data versioning** (hard data + pipeline)
-- **Experiment tracking** & artifact logging
-- **Remote experiment storage** 
-- **Continuous Integration** (automated testing), 
-- **Containerization** readiness
-
-All while keeping the beloved **Palmer Penguins** dataset (Adelie, Chinstrap, Gentoo 🐧).
-
-## ✨ Key Features & Modern MLOps Practices Demonstrated
 
 | Area                        | Tool/Technique                          | What was implemented                                                                 |
 |-----------------------------|-----------------------------------------|--------------------------------------------------------------------------------------|
 | 📂 Data & Pipeline Versioning | **DVC**                                | Versioned raw & processed data, automated reproducible pipelines (`dvc repro`)      |
-| 📦 Remote Data & Model Store  | **DagsHub**                            | DVC remote storage + MLflow remote tracking server                                  |
-| 📊 Experiment Tracking       | **MLflow**                             | Logged metrics, parameters, models, datasets, figures — viewable in MLflow UI       |
+| 📊 Experiment Tracking       | **MLflow**                             | In model_evaluation component added tracking server , logged metric, artifact and models — viewable in MLflow UI       |
+| 📦 Remote Data & Model Store  | **DagsHub**                            | remote storage + MLflow remote tracking server                                   |
 | 🧪 Continuous Integration    | **GitHub Actions**                     | Automated tests for components, pipeline validation, logger checks                  |
-| 🐳 Containerization          | **Docker**                             | Built Docker image for app.py + pushed image to dockerhub :https://hub.docker.com/r/priyan5hu/builtover/tags                      |
+| 🐳 Containerization          | **Docker**                             | Built Docker image for app.py + pushed image to dockerhub                       |
 | 🛠 Clean Code Architecture   | **OOP principles**                     | Modular helpers: `Loader`, `Saver`, `Logster` + inheritance usage                   |
-| 🔄 Reproducibility           | DVC + `dvc.lock` + dvc repro              | Commit after every meaningful pipeline change — fast local runs without `dvc repro` |
+
+
+## Extra things and important links
+
+- To check remote server visit :https://dagshub.com/priyanshu24003/Built_Over..mlflow
+- There is a seperate branch remote_server in this repository
+- To pull the docker image you can use :https://hub.docker.com/r/priyan5hu/builtover/tags
+
+## Scope of Improvement
+
+- Complete containarization of the Project reproduce the entire pipeline using New data in some other machine or server and view experiment mlflow.ui in it.
+- Deveral parameters related to different components in src can be added to params.yaml.
+- Storage Bucket such as s3 can be used instead of dagshub.
+- child runs can be added to see how different models perform using mlflow.
+- We can introce Complexity to the project by doing experimentation in different stages of the pipeline
+- we can try differnt tools to accomplish same tasks.
+
+
+
