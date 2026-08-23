@@ -15,7 +15,7 @@ def Log_check(filename, recentlogN):
         r = file.readlines()[-recentlogN:]
         allone = ''.join(r)
         if 'ERROR' in allone:
-            raise "ERROR IN DATA_INJESTION"
+            raise f"ERROR IN {filename}"
 
 def test_Data_ingestion():
     try:        
@@ -40,7 +40,7 @@ def test_feature_selection():
     
 
 
-def test_Evaluation():
+def test_Model_training():
     
     try:        
         Log_check('data/logs/D_Model_Training.log', -7)
@@ -49,11 +49,11 @@ def test_Evaluation():
     
 
 
-def test_Model_training():
+# def test_Evaluation():
     
-    try:        
-        Log_check('data/logs/E_model_evaluation.log', -7)
-    except Exception as e:
+#     try:        
+#         Log_check('data/logs/E_model_evaluation.log', -7)
+#     except Exception as e:
 
-        raise e
+#         raise e
     

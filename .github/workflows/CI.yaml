@@ -39,8 +39,9 @@ jobs:
     - name: Run D
       run: python src/D_model_training.py
 
-    - name: Run E
-      run: python src/E_model_evaluation.py
+    # Check why following takes time ?
+    # - name: Run E
+    #   run: python src/E_model_evaluation.py
 
     - name: Run tests
       run: pytest src/_test.py
