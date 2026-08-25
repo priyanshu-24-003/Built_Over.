@@ -1,6 +1,3 @@
-
-
-#this file fetches random_sample of the test_data any new data can be introduced in future
 import pandas as pd
 
 
