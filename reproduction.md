@@ -10,7 +10,7 @@
         
         for windows : DIY :)
 
-### install deps : pip install -r requirements.txt
+### install deps : pip install -r requirements2.txt 
 
 ### terminal 1:
     #activate env
