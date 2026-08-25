@@ -13,7 +13,7 @@ from helper.Loader import Load
 from helper.Saver import Savy
 from helper.Logster import Logy
 
-# Local tracking server setup
+## Local trac# Local tracking server setup
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 # Local tracking server setup
 
@@ -43,6 +43,9 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
 
 
 def main():
+    """
+    Experiment Tracking using mlfow in this Model_Evaluation component. 
+    """
     try:
         mlflow.set_experiment('Experiment_1_classification_model')
         with mlflow.start_run() as run:
@@ -63,15 +66,22 @@ def main():
             #log metrics
             mlflow.log_metric('accuracy',metrics['accuracy'], )
 
-            #log the training and testing data
+    
 
-            mlflow.log_artifacts('./data/processed')
+            #log the training and testing data
+            data_set = mlflow.data.from_pandas(test_data, 'test_data')
+            mlflow.log_input(data_set, 'test_data')
+
+            train_data = Load('./data/processed/train.csv', 'df', logger, __file__).load_it()
+            train_data_set = mlflow.data.from_pandas(train_data, 'train_data')
+            mlflow.log_input(train_data_set, 'train_data')
+            #log the training and testing data
 
             #logging the paramsfile
             mlflow.log_artifact('./params.yaml')
 
             #log the model 
-            mlflow.sklearn.log_model(clf, 'Model_')
+            mlflow.sklearn.log_model(clf, 'Model')
 
             #log the reports
             mlflow.log_artifact('./data/reports/metrics.json')

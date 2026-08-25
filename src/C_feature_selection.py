@@ -16,6 +16,9 @@ LC= Logy('C_Feature_selection.log','data')
 logger = LC.get_this_logy()
 
 def remove_duplicate_unordered(lst):
+    """
+    removes duplicated combos of features.
+    """
     lst = [[{a[0], a[1], a[2]}] for a in lst if a[1] != a[2]]
     sets = {frozenset(x[0]) for x in lst}
     final_features_combos = [list(y) for y in sets]
@@ -25,16 +28,10 @@ def check_column_scores(cols, df):
     """
     
     K-Fold-Cross-Validation technique with Xtrain[cols]
-
-    Parameters
-    ----------
-    cols : list of strings, columns on which to be trained
     
-    Return
-    ----------
-    float : average of 5 cross validation scores
+    It is not validating the model but the features [cols] "combo" that are used to train the model.  
     """
-    
+
     LR = LogisticRegression(max_iter = 5000)
     
     df2 = df.copy()

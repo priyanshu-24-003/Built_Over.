@@ -15,15 +15,10 @@ logger = LB.get_this_logy()
 
 def prep_penguins_data(data, trORte):
     """
-    Prepares penguins data frame for machine learning models.
-    
-    Parameters
-    ----------
-    data : pandas.DataFrame to be prepared
-    
-    Return
-    ----------
-    (X, y) : pandas.DataFrame without Species column, pandas.Series of Species column
+
+    This function Encodes the categorical features.
+    and logs the mappings of the label encoder.
+
     """
     
     df = data.copy()
@@ -34,7 +29,10 @@ def prep_penguins_data(data, trORte):
             le = preprocessing.LabelEncoder()
             
             df[c] = le.fit_transform(df[c])
-            
+
+            label_mapping = dict(zip(le.classes_, le.transform(le.classes_)))
+            logger.critical(f"lable mappings {label_mapping}")
+
         logger.debug(f'successfully encoded {cats} the catagorical features of {trORte}')
 
         return df
@@ -47,7 +45,7 @@ def prep_penguins_data(data, trORte):
 
 def main(text_column='text', target_column='target'):
     """
-    Main function to load raw data, preprocess it, and save the processed data.
+    Main function loads raw data, preprocess it, and saves the processed data.
     """
     try:
 

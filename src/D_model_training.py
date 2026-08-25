@@ -41,8 +41,6 @@ def load_params(params_path: str) -> dict:
 
 
 def check_models(Xtrain, Ytrain, x_val, y_val):
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.tree import DecisionTreeClassifier
 
     try:
         logger.debug('multimodel training started with training data')
@@ -63,11 +61,9 @@ def check_models(Xtrain, Ytrain, x_val, y_val):
 
 def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
     """
-    Train the RandomForest model.    
     :param X_train: Training features
     :param y_train: Training labels
-    :param params: Dictionary of hyperparameters
-    :return: Trained RandomForestClassifier
+    :return: Trained SupportVectorClassifier
     """
     try:                        
         gammas = np.linspace(0.05, 5, 100)
@@ -92,10 +88,8 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
         
         logger.debug(f'model has been trained with score on training data :{SVM.score(X_train, y_train)} ')
 
-
         return SVM
 
-    
     except ValueError as e:
         logger.error('ValueError during model training: %s', e)
         raise
