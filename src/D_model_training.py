@@ -8,7 +8,9 @@ from sklearn import svm
 from sklearn.model_selection import cross_val_score
 import mlflow
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 
 
 #importing helper module from parent
@@ -37,58 +39,22 @@ def load_params(params_path: str) -> dict:
         logger.error('Unexpected error: %s', e)
         raise
 
-def basic_model_training(X_train, Y_train):
-    """
-    Docstring for basic_model_training
-    
-    :param X_train: Features
-    :param Y_train: Labels
 
-    Trains basic models for later comparision of main model
-    """
-    basic_Models = {"RF":RandomForestClassifier(), "LR":LogisticRegression()}
-
-    try:
-        logger.debug('training random forest and logistic regression for comparision')
-        
-        for key in basic_Models.keys():
-                basic_Models[key].fit(X_train, Y_train)
-                model_save_path = f'data/models/basic_M/{key}.pkl'
-                Savy(model_save_path, 'model', logger, __file__, basic_Models[key],).save_it()
-
-        logger.debug('Basic model Training has been compleated')
-        
-    except Exception as e:
-        logger.error('error while training basic models')
-        raise
-        
-    return basic_Models
-
-def check_models(X_train_small, y_train_small,x_test, y_test):
+def check_models(Xtrain, Ytrain, x_val, y_val):
     from sklearn.linear_model import LogisticRegression
     from sklearn.tree import DecisionTreeClassifier
-    from sklearn.neighbors import KNeighborsClassifier
 
     try:
-        logger.debug('multimodel training started with small training data')
+        logger.debug('multimodel training started with training data')
 
-        m1 = LogisticRegression()
-        m1.fit(X_train_small, y_train_small)
-        s1 = m1.score(x_test, y_test)
+        models = [LogisticRegression(), DecisionTreeClassifier(), KNeighborsClassifier()]
+        score2model = {}
+        for m in models:
+            m.fit(Xtrain, Ytrain)
+            score2model[m.score(x_val, y_val)] = m
 
-        
-        m2 = DecisionTreeClassifier()
-        m2.fit(X_train_small, y_train_small)
-        s2 = m2.score(x_test,y_test)
-
-
-        m3 = KNeighborsClassifier()
-        m3.fit(X_train_small, y_train_small)
-        s3 = m3.score(x_test, y_test)
-
-        score2model = {s1:m1, s2:m2, s3:m3}
         best = max(score2model.keys())
-        logger.debug(f'the best out of 3 models has been trained and returned {score2model[best]} with mini testing score {best}')
+        logger.debug(f'the best out of 3 models has been trained and returned {score2model[best]} with score on validation dataset {best}')
         return score2model[best]
 
     except Exception as e:
@@ -126,7 +92,6 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
         
         logger.debug(f'model has been trained with score on training data :{SVM.score(X_train, y_train)} ')
 
-        basic_model_training(X_train, y_train)
 
         return SVM
 
@@ -143,17 +108,20 @@ def main():
         params = load_params('params.yaml')['model_building']
 
         train_data = Load('./data/processed/train.csv', 'df', logger, __file__).load_it()
+        X_train = train_data.iloc[:, :-1].values
+        y_train = train_data.iloc[:, -1].values
 
-        if params['model_types'] == "main":
-            X_train = train_data.iloc[:, :-1].values
-            y_train = train_data.iloc[:, -1].values
+        if params['model_types'] == "tuned":     
 
             clf = train_model(X_train, y_train,)
-        elif params['model_types'] == 'multi':
+
+
+        elif params['model_types'] == 'baseline':
+
             test_data = Load('./data/processed/test.csv', 'df', logger, __file__).load_it()
-            x_test = test_data.iloc[:10, :-1].values
-            y_test = test_data.iloc[:10, -1].values
-            clf = check_models(train_data.iloc[:100, :-1], train_data.iloc[:100, -1], x_test, y_test)
+            x_val = test_data.iloc[:10, :-1].values
+            y_val = test_data.iloc[:10, -1].values
+            clf = check_models(X_train, y_train, x_val, y_val)
             
 
         model_save_path = 'data/models/model.pkl'
