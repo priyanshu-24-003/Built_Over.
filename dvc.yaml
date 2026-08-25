@@ -4,10 +4,9 @@ stages:
     deps:
     - src/A_data_injestion.py
     - data/src/palmer_penguins.csv
-    # params:
-    # - data_ingestion.test_size
     outs:
     - data/raw
+
   data_preprocessing:
     cmd: python src/B_preperation.py
     deps:
@@ -15,26 +14,23 @@ stages:
     - src/B_preperation.py
     outs:
     - data/interim
+
   feature_Selection:
     cmd: python src/C_feature_selection.py
     deps:
     - data/interim
     - src/C_feature_selection.py
-    # params:
-    # - feature_engineering.max_features
     outs:
     - data/processed
+    
   model_building:
     cmd: python src/D_model_training.py
     deps:
     - data/processed
     - src/D_model_training.py
-    # params:
-    # - model_building.n_estimators
-    # - model_building.random_state
+    params:
+    - model_building.model_types
     outs:
-    - data/models/basic_M/LR.pkl
-    - data/models/basic_M/RF.pkl
     - data/models/model.pkl
   model_evaluation:
     cmd: python src/E_model_evaluation.py
@@ -43,10 +39,3 @@ stages:
     - src/E_model_evaluation.py
     metrics:
     - data/reports/metrics.json
-# params:
-# - dvclive/params.yaml
-# metrics:
-# - dvclive/metrics.json
-# plots:
-# - dvclive/plots/metrics:
-#     x: step
