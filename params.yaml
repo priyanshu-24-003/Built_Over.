@@ -1,7 +1,7 @@
 
 
 model_building:
-  model_types: main # multi?
+  model_types: tuned # tuned or baseline?
 
 
   

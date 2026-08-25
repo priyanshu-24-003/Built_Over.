@@ -15,12 +15,17 @@ from helper.Logster import Logy
 LC= Logy('C_Feature_selection.log','data')
 logger = LC.get_this_logy()
 
+def remove_duplicate_unordered(lst):
+    lst = [[{a[0], a[1], a[2]}] for a in lst if a[1] != a[2]]
+    sets = {frozenset(x[0]) for x in lst}
+    final_features_combos = [list(y) for y in sets]
+    return final_features_combos
 
 def check_column_scores(cols, df):
     """
-    Trains and evaluates Logistic Regression via crossvalidation on the columns
-    of the dataset with select indeces
     
+    K-Fold-Cross-Validation technique with Xtrain[cols]
+
     Parameters
     ----------
     cols : list of strings, columns on which to be trained
@@ -38,7 +43,17 @@ def check_column_scores(cols, df):
 
     return cross_val_score(LR, X[cols], y, cv = 5).mean()
 
+
+
 def FeatureSelection(df):
+    """
+    Methods to select a combination 3 most important features 
+
+    1. First it creats all combos
+    2. Passes every combo to training set to check_column_scores to find mean cv score it has produced.
+    3. Combo that produced best mean cv score gets selected at the end
+    """
+
     try:
         logger.debug('feature selection started ')
         quals = ["Island", "Sex"]
@@ -48,10 +63,15 @@ def FeatureSelection(df):
 
         combos = [[qual]+[quant1]+[quant2] for qual in quals for quant1 in quants for quant2 in quants if quant1 != quant2]
 
+        #I hadn't remove_duplicate_unordered , feature selection time would have doubled.
+        combos = remove_duplicate_unordered(combos)
+
         cv_scores = []
         best_cv_score = -np.inf
 
         for combo in combos:
+
+            #passing training set with current combo for k-fold-cross-validation
             score = check_column_scores(combo, df)
             cv_scores.append(score)
             
@@ -59,7 +79,7 @@ def FeatureSelection(df):
                 best_cv_score = cv_scores[-1]
                 best_combo = combo
 
-        logger.debug("Best Feature selected which produces CV score: " + str(best_cv_score))
+        logger.debug(f"Best Feature selected {best_combo} which produces CV score: " + str(best_cv_score),)
 
         return best_combo
     except:
