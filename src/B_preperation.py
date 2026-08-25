@@ -29,21 +29,19 @@ def prep_penguins_data(data, trORte):
     df = data.copy()
     
     try:
-        le = preprocessing.LabelEncoder()
-        
-        df["Sex"] = le.fit_transform(df["Sex"])
-        
-        df["Island"] = le.fit_transform(df["Island"])
-        
-        df["Species"] = le.fit_transform(df["Species"])
-
-        logger.debug(f'successfully encoded the catagorical features of {trORte}')
+        cats = ["Sex", "Island", "Species",]
+        for c in cats:
+            le = preprocessing.LabelEncoder()
+            
+            df[c] = le.fit_transform(df[c])
+            
+        logger.debug(f'successfully encoded {cats} the catagorical features of {trORte}')
 
         return df
         
-    except:
-        
-        logger.error('error in prep_penguins_data')
+    except Exception as e:
+        print(df.sample(2))
+        logger.error(f'error in prep_penguins_data {e}')
         raise 
 
 

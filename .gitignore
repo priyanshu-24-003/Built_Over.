@@ -18,3 +18,5 @@ src.egg-info
 .pytest_cache
 .dvc/
 mlartifacts
+overenv
+remarks_for_future_me.txt
